@@ -1,0 +1,56 @@
+﻿@page "/"
+@using BlazorLocalStorage.Helpers
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<div class="center-screen">
+    <div>
+
+        <div class="row">
+            <label>Text-1</label>
+            <InputText class="m-2" @bind-Value="Text1" />
+        </div>
+
+        <div class="row">
+
+            <button class="btn btn-success m-2" @onclick="Save">Save</button>
+
+            <button class="btn btn-info m-2" @onclick="Load">Load</button>
+
+            <button class="btn btn-warning m-2" @onclick="Remove">Remove</button>
+
+            <button class="btn btn-danger m-2" @onclick="Clear">Clear</button>
+
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    [Inject] ILocalStorageHelper LocalStorage { get; set; }
+
+    public string Text1 { get; set; }
+
+    public async Task Save()
+    {
+        await LocalStorage.SetItem("textData", Text1);
+    }
+
+    public async Task Load()
+    {
+        Text1 = await LocalStorage.GetItem("textData");
+    }
+
+    public async Task Remove()
+    {
+        await LocalStorage.RemoveItem("textData");
+    }
+
+    public async Task Clear()
+    {
+        await LocalStorage.ClearData();
+    }
+
+}
